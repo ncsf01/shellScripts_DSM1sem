@@ -1,0 +1,4 @@
+Aula de Shell Script na Fatec.
+Estamos aprendendo a usar o Linux Mint no terminal.
+O comando grep serve para buscar palavras em arquivos de texto.
+O Linux é um sistema operacional incrível!

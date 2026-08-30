@@ -1,0 +1,3 @@
+Aula de Shell Script na Fatec.
+Estamos aprendendo a usar o terminal no Linux.
+O Linux é um sistema operacional incrível!
