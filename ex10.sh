@@ -1,56 +1,46 @@
 #!/bin/bash
+
 opcao=0
 
-while [ "$opcao" -ne 3 ]; do
-    echo "=== COMPACTADOR / DESCOMPACTADOR (.tar.gz) ==="
+while [ "$opcao" -ne 2 ]; do
+    echo "=== INFORMAÇÕES DE USUÁRIO ==="
     echo ""
-    echo "1. Compactar arquivo ou diretório"
-    echo "2. Descompactar arquivo .tar.gz"
-    echo "3. Sair"
-    read -p "Opção desejada (1-3): " opcao
-
+    echo "1. Procurar usuário"
+    echo "2. Sair"
+    echo ""
+    read -p "Opção (1-2): " opcao  # Ajustado para salvar na variável 'opcao'
+    
     case $opcao in
         1)
-            read -p "Digite o nome do arquivo ou pasta a compactar: " alvo
+            echo ""
+            read -p "Digite o nome exato do usuário: " user
             
-            if [ ! -e "$alvo" ]; then
-                echo "Erro: O arquivo ou diretório '$alvo' não existe!"
+            # Busca direta e exata no /etc/passwd (ou via getent)
+            linha_passwd=$(getent passwd "$user")
+            
+            if [ -z "$linha_passwd" ]; then
+                echo "Erro: usuário '$user' não existe no sistema!"
             else
-                read -p "Digite o nome do arquivo final (ex: meu_pacote.tar.gz): " pacote
+                diretorio_home=$(echo "$linha_passwd" | cut -d: -f6)
                 
-                if [[ "$pacote" != *.tar.gz ]]; then
-                    pacote="${pacote}.tar.gz"
+                echo ""
+                echo "=== INFORMAÇÕES DE $user ==="
+                echo "Nome do usuário: $user"
+                echo "Diretório de trabalho (HOME): $diretorio_home"
+                
+                if [ -d "$diretorio_home" ]; then
+                    espaco_disco=$(du -sh "$diretorio_home" 2>/dev/null | cut -f1)
+                    echo "Espaço utilizado no disco: $espaco_disco"
+                else
+                    echo "Aviso: Diretório HOME não foi encontrado no disco ($diretorio_home)"
                 fi
-                
-                echo ""
-                echo "--- Compactando... ---"
-                # -czvf: Create, gzip, Verbose, File
-                tar -czvf "$pacote" "$alvo"
-                
-                echo ""
-                echo "Sucesso: '$alvo' foi compactado em '$pacote'!"
             fi
             ;;
         2)
-            read -p "Digite o nome do arquivo .tar.gz a descompactar: " pacote
-            
-            if [ ! -f "$pacote" ]; then
-                echo "Erro: O arquivo '$pacote' não existe!"
-            else
-                echo ""
-                echo "--- Descompactando... ---"
-                # -xzvf: eXtract, gzip, Verbose, File
-                tar -xzvf "$pacote"
-                
-                echo ""
-                echo "Sucesso: Conteúdo de '$pacote' extraído no diretório atual!"
-            fi
-            ;;
-        3)
             echo "Saindo..."
             ;;
         *)
-            echo "Opção inválida! Escolha de 1 a 3."
+            echo "Opção inválida! Escolha 1 ou 2."
             ;;
     esac
 

@@ -1,18 +1,39 @@
 #!/bin/bash
 
-echo "=== PROCURAR PROCESSO EM EXECUÇÃO ==="
-echo ""
+opcao=0
 
-read -p "Digite o nome do processo que deseja procurar (ex: firefox, bash): " proc
+while [ "$opcao" -ne 2 ]; do
+    echo "=== PROCURAR PROCESSO EM EXECUÇÃO ==="
+    echo ""
+    echo "1. Buscar um processo por nome"
+    echo "2. Sair"
+    echo ""
+    read -p "Escolha uma opção (1-2): " opcao
 
-# O grep -v "grep" remove da lista a própria linha do comando grep que acabou de rodar
-resultado=$(ps aux | grep -i "$proc" | grep -v "grep")
+    echo ""
+    case $opcao in
+        1)
+            read -p "Digite o nome do processo que deseja procurar (ex: firefox, bash): " proc
 
-echo ""
-if [ -n "$resultado" ]; then
-    echo "Processos encontrados:"
-    echo "----------------------"
-    echo "$resultado"
-else
-    echo "Aviso: Nenhum processo referente a '$proc' foi encontrado em execução."
-fi
+            resultado=$(ps aux | grep -i "$proc" | grep -v "grep")
+
+            echo ""
+            
+            if [ -n "$resultado" ]; then
+                echo "Processo(s) encontrado(s):"
+                echo "----------------------"
+                echo "$resultado"
+            else
+                echo "Aviso: Nenhum processo referente a '$proc' foi encontrado em execução."
+            fi
+            ;;
+        2)
+            echo "Saindo da busca de processos..."
+            ;;
+        *)
+            echo "Opção inválida! Escolha 1 ou 2."
+            ;;
+    esac
+
+    echo ""
+done

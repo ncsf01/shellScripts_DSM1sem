@@ -1,24 +1,34 @@
 #!/bin/bash
 
-echo "=== USUÁRIOS CONECTADOS ==="
-echo ""
-echo "1. Listagem simples (who)"
-echo "2. Listagem detalhada com cabeçalho (who -H -a) - Desafio"
-read -p "Opção (1-2): " op
+opcao=0
 
-echo ""
-case $op in
-    1)
-        who
-        ;;
-    2)
-        who -H -a
-        ;;
-    *)
-        echo "Opção inválida, exibindo listagem simples:"
-        who
-        ;;
-esac
+while [ "$opcao" -ne 3 ]; do
+    echo "=== USUÁRIOS CONECTADOS ==="
+    echo ""
+    echo "1. Listagem simples (who)"
+    echo "2. Listagem detalhada com cabeçalho (who -H -a)"
+    echo "3. Sair"
+    read -p "Opção (1-3): " op
 
-echo ""
-echo "Esses são os usuários atualmente conectados ao sistema."
+    echo ""
+    case $opcao in
+        1)
+            who
+            echo ""
+            echo "Esses são os usuários atualmente conectados ao sistema."
+            ;;
+        2)
+            who -H -a
+            echo ""
+            echo "Esses são os usuários atualmente conectados ao sistema."
+            ;;
+        3)
+            echo "Saindo do programa..."
+            ;;
+        *)
+            echo "Opção inválida! Por favor, escolha entre 1, 2 ou 3."
+            ;;
+    esac
+
+    echo ""
+done

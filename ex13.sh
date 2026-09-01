@@ -1,12 +1,39 @@
 #!/bin/bash
 
-echo "=== PROCESSOS EM EXECUÇÃO NO SISTEMA ==="
-echo "A lista a seguir exibe todos os processos ativos, o usuário dono de cada um,"
-echo "o consumo de CPU/Memória e o comando que deu origem ao processo."
-echo "-------------------------------------------------------------------------"
-echo ""
-read -p "Pressione [ENTER] para exibir a listagem..."
+opcao=0
 
-ps aux | head -n 25
-echo ""
-echo "(Exibindo as primeiras 25 linhas para não poluir o terminal)"
+while [ "$opcao" -ne 2 ]; do
+    echo "=== GERENCIADOR DE PROCESSOS DO SISTEMA ==="
+    echo ""
+    echo "1. Listar processos em execução"
+    echo "2. Sair"
+    echo ""
+    read -p "Escolha uma opção (1-2): " opcao
+
+    echo ""
+    case $opcao in
+        1)
+            echo "------------------------------------------------------------------------"
+            echo "ATENÇÃO: A listagem a seguir exibe todos os processos ativos no Linux."
+            echo "As colunas mostram o Usuário dono (USER), o PID (ID do processo),"
+            echo "o consumo de CPU/Memória (%CPU, %MEM) e o comando que deu origem a ele."
+            echo "------------------------------------------------------------------------"
+            echo ""
+            
+            read -p "Pressione [ENTER] para exibir a listagem..."
+            echo ""
+
+            ps aux | head -n 25
+            
+            echo ""
+            ;;
+        2)
+            echo "Saindo..."
+            ;;
+        *)
+            echo "Opção inválida! Escolha 1 ou 2."
+            ;;
+    esac
+
+    echo ""
+done

@@ -1,7 +1,7 @@
 #!/bin/bash
-op=0
+opcao=0
 
-while [ $op -ne 3 ]; do
+while [ "$opcao" -ne 3 ]; do
 	echo "=== COMPARAR ARQUIVOS (diff)"
 	echo ""
 	echo "1. Criar arquivos 'doc1.txt', 'doc2.txt' e 'doc3.txt'"
@@ -10,7 +10,7 @@ while [ $op -ne 3 ]; do
 	echo ""
 	read -p "Opção (1-3): " op
 	
-	case $op in
+	case $opcao in
 		1)
 			cat << EOF > doc1.txt
 Aula de Shell Script na Fatec.
